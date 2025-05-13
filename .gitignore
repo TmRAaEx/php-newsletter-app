@@ -1,0 +1,36 @@
+# Ignorera systemfiler
+.DS_Store
+Thumbs.db
+
+# Ignorera filer från Composer
+/vendor/
+
+# Ignorera konfigureringsfiler och beroenden från Composer
+/composer.lock
+/composer.phar
+
+# Ignorera loggar
+/writable/logs/
+/writable/cache/
+/writable/sessions/
+/writable/uploads/
+
+# Ignorera filer från IDE (ex. PHPStorm, Visual Studio Code)
+.idea/
+.vscode/
+
+# Ignorera Docker-relaterade filer (om du inte vill spåra Docker-konfigurationerna i Git)
+docker-compose.override.yml
+
+# Ignorera miljöspecifika filer (som .env)
+.env
+
+# Ignorera kod från systemet (om du använder något som Redmine eller andra loggsystem)
+*.log
+
+# Ignorera test- och utvecklingsdata
+/tests/
+
+# Ignorera temporary build-filer
+*.swp
+*.swo
