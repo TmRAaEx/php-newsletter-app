@@ -1,3 +1,5 @@
+version: "3.7"
+
 services:
   db:
     image: mariadb:10.6
@@ -6,6 +8,8 @@ services:
     restart: no
     environment:
       MYSQL_ROOT_PASSWORD: notSecureChangeMe
+      MYSQL_DATABASE: newsletter_db 
+
   site:
     depends_on:
       - db
@@ -21,6 +25,9 @@ services:
       DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: notSecureChangeMe
+    working_dir: /var/www/newsletter-app 
+    command: apache2-foreground 
+
   phpmyadmin:
     depends_on:
       - db
@@ -31,5 +38,6 @@ services:
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: notSecureChangeMe
+
 volumes:
   db:
