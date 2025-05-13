@@ -17,7 +17,7 @@ Thumbs.db
 
 # Ignorera filer från IDE (ex. PHPStorm, Visual Studio Code)
 .idea/
-.vscode/
+/vscode/*
 
 # Ignorera Docker-relaterade filer (om du inte vill spåra Docker-konfigurationerna i Git)
 docker-compose.override.yml
