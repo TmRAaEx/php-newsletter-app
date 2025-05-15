@@ -52,7 +52,22 @@ Detta kommando startar de tre tjänsterna som definieras i Docker Compose:
 - **phpMyAdmin (phpmyadmin):** Ett webbaserat gränssnitt för att hantera databasen.  
 - **PHP-applikationen (site):** Din CodeIgniter-applikation som körs på Apache.
 
+#### 3.1 Ladda ned paket
+
+Gå in i docker containers terminal 
+```bash 
+docker exec -it php-site-1 bash
+```
+
+sedan 
+```bash 
+composer install
+```
+för att ladda ned alla nödvändiga paket såsom codeigniter
+
+
 ### 4. Åtkomst till applikationen
+
 
 När containrarna har startat kan du nå applikationen på följande adresser:
 
