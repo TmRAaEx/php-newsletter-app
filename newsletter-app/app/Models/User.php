@@ -18,7 +18,8 @@ class User extends Model
         'password_hash',
         'salt',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'password_raw' //only for validation
     ];
 
     protected $useTimestamps = true;
@@ -33,18 +34,19 @@ class User extends Model
         'first_name' => 'required',
         'last_name' => 'required',
         'email' => 'required|valid_email|is_unique[users.email]',
-        'password_hash' => 'required|min_length[6]',
+        'password_raw' => 'required|min_length[6]',
     ];
 
     protected function generateSaltAndHashPassword(array $data)
     {
-        if (!isset($data['data']['password_hash'])) {
+        if (!isset($data['data']['password_raw'])) {
             return $data;
         }
 
         $salt = bin2hex(random_bytes(16));
         $data['data']['salt'] = $salt;
-        $data['data']['password_hash'] = hash('sha256', $salt . $data['data']['password_hash']);
+        $data['data']['password_hash'] = hash('sha256', $salt . $data['data']['password_raw']);
+        unset($data['data']['password_raw']);
 
         return $data;
     }
