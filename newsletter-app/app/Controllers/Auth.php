@@ -2,20 +2,31 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Database\Query;
-
+use App\Models\User;
 class Auth extends BaseController
 {
-    protected $db;
-
-    public function __construct()
-    {
-        $this->db = \Config\Database::connect();
-    }
-
     public function register(): string
     {
-        return view('home_page');
-    }
+        if ($this->request->getMethod() === 'post') {
+            $userModel = new User();
 
+            $data = [
+                'first_name' => $this->request->getPost('first_name'),
+                'last_name' => $this->request->getPost('last_name'),
+                'email' => $this->request->getPost('email'),
+                'password_hash' => $this->request->getPost('password'), 
+            ];
+
+            if (!$userModel->save($data)) {
+                
+                $errors = $userModel->errors(); 
+                if (empty($errors)) {
+                    $errors = $userModel->db->error();
+                }
+
+                return view('auth/register', ['errors' => $errors]);
+            }
+        }
+        return view('register');
+    }
 }
