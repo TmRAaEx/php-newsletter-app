@@ -46,7 +46,7 @@ class Auth extends BaseController
             if ($user && hash('sha256', $user['salt'] . $password) === $user['password_hash']) {
                 // Set session data
                 session()->set('logged_in', true);
-                session()->set('user_id', $user['id']);
+                session()->set('user_id', $user['id']); 
 
                 return redirect()->to('/')->with('message', 'Inloggning lyckades!');
             } else {
