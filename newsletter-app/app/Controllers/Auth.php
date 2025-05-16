@@ -26,7 +26,7 @@ class Auth extends BaseController
             ];
 
             $role = $this->request->getPost('role_id');
-            
+
 
             if (!$userModel->save($data)) {
                 $errors = $userModel->errors();
@@ -49,26 +49,38 @@ class Auth extends BaseController
         } else {
 
             $roles = $roleModel->findAll();
-            
+
             return view('auth/register', ['roles' => $roles]);
         }
     }
 
     public function login()
     {
+
+        $ip = $this->request->getIPAddress();
+        $cache = \Config\Services::cache();
+        $key = 'login_attempts_' . $ip;
+        $maxAttempts = 5;
+        $lockoutMinutes = 10;
+
+        $attempts = $cache->get($key) ?? 0;
+
         if ($this->request->getMethod() === 'POST') {
             $userModel = new User();
             $sessionModel = new Session();
-            
+
 
             $email = $this->request->getPost('email');
             $password = $this->request->getPost('password');
 
             $user = $userModel->where('email', $email)->first();
 
-            
+
             if ($user && hash('sha256', $user['salt'] . $password) === $user['password_hash']) {
-                
+                $cache->delete($key);
+
+
+
                 $session_token = bin2hex(random_bytes(32));
                 $expires_in_ms = 60 * 60 * 24 * 30; // one month
                 $sessionModel->save([
@@ -78,15 +90,16 @@ class Auth extends BaseController
                     'user_agent' => $this->request->getUserAgent()->getAgentString(),
                     'expires_at' => date('Y-m-d H:i:s', time() + $expires_in_ms)
                 ]);
-                
+
                 session()->set([
                     'session_token' => $session_token,
-                    'user_id'       => $user['id'],
-                    'logged_in'     => true,
+                    'user_id' => $user['id'],
+                    'logged_in' => true,
                 ]);
 
                 return redirect()->to('/')->with('message', 'Inloggning lyckades!');
             } else {
+                $cache->save($key, $attempts + 1, $lockoutMinutes * 60);
                 return view('auth/login', ['error' => 'Felaktig e-postadress eller lösenord.']);
             }
         }
