@@ -39,7 +39,9 @@
             <ul>
                 <?php foreach ($newsletters as $field => $newsletter): ?>
                     <li class="newletter-item">
-                        <?= view('components/newsletter_card', ['name' => $newsletter['name'], 'date' => $newsletter['updated_at']]) ?>
+                        <a href="<?= base_url('newsletters/' . $newsletter['id']) ?>" style="text-decoration: none; color: unset;">
+                            <?= view('components/newsletter_card', ['name' => $newsletter['name'], 'date' => $newsletter['updated_at']]) ?>
+                        </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
