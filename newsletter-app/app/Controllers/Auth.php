@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Models\Session;
 
 class Auth extends BaseController
 {
@@ -37,17 +38,32 @@ class Auth extends BaseController
     {
         if ($this->request->getMethod() === 'POST') {
             $userModel = new User();
+            $sessionModel = new Session();
+            
 
             $email = $this->request->getPost('email');
             $password = $this->request->getPost('password');
 
             $user = $userModel->where('email', $email)->first();
 
-
+            
             if ($user && hash('sha256', $user['salt'] . $password) === $user['password_hash']) {
-                // Set session data
-                session()->set('logged_in', true);
-                session()->set('user_id', $user['id']); 
+                
+                $session_token = bin2hex(random_bytes(32));
+                $expires_in_ms = 60 * 60 * 24 * 30; // one month
+                $sessionModel->save([
+                    'user_id' => $user['id'],
+                    'session_token' => $session_token,
+                    'ip_address' => $this->request->getIPAddress(),
+                    'user_agent' => $this->request->getUserAgent()->getAgentString(),
+                    'expires_at' => date('Y-m-d H:i:s', time() + $expires_in_ms)
+                ]);
+                
+                session()->set([
+                    'session_token' => $session_token,
+                    'user_id'       => $user['id'],
+                    'logged_in'     => true,
+                ]);
 
                 return redirect()->to('/')->with('message', 'Inloggning lyckades!');
             } else {
