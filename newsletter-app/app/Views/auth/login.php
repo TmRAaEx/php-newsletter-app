@@ -41,14 +41,18 @@
 
     <h2>Logga in</h2>
     <?php
-    if (!empty($errors)): ?>
+    $sessionError = session()->getFlashdata('error');
+    if (!empty($sessionError)): ?>
         <div class="error">
-            <h1>Errors</h1>
-            <ul>
-                <?php foreach ($errors as $field => $error): ?>
-                    <li><?= esc($error) ?></li>
-                <?php endforeach; ?>
-            </ul>
+            <h1>Error</h1>
+            <p><?= esc($sessionError) ?></p>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($error)): ?>
+        <div class="error">
+            <h1>Error</h1>
+            <p><?= esc($error) ?></p>
         </div>
     <?php endif; ?>
     <form method="post" action="<?= site_url('login') ?>">
