@@ -35,13 +35,14 @@ class Auth extends BaseController
 
     public function login()
     {
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $userModel = new User();
 
             $email = $this->request->getPost('email');
             $password = $this->request->getPost('password');
 
             $user = $userModel->where('email', $email)->first();
+
 
             if ($user && hash('sha256', $user['salt'] . $password) === $user['password_hash']) {
                 // Set session data
