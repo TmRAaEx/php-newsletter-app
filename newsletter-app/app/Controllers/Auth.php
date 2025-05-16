@@ -65,6 +65,13 @@ class Auth extends BaseController
 
         $attempts = $cache->get($key) ?? 0;
 
+
+        if ($attempts >= $maxAttempts) {
+            return view('auth/login', [
+                'error' => "För många misslyckade försök. Försök igen om $lockoutMinutes minuter."
+            ]);
+        }
+
         if ($this->request->getMethod() === 'POST') {
             $userModel = new User();
             $sessionModel = new Session();
