@@ -8,7 +8,7 @@ services:
     restart: no
     environment:
       MYSQL_ROOT_PASSWORD: notSecureChangeMe
-      MYSQL_DATABASE: newsletter_db 
+      MYSQL_DATABASE: newsletter_saas
 
   site:
     depends_on:
