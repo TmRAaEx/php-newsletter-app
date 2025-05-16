@@ -39,11 +39,11 @@
 
     <h2>Skapa konto</h2>
 
-    <?php if (!empty($errors)): 
+    <?php if (!empty($errors)):
         ?>
         <div class="error">
             <ul>
-                <?php foreach ($errors as $field => $error):?>
+                <?php foreach ($errors as $field => $error): ?>
                     <li><?= esc($error) ?></li>
                 <?php endforeach; ?>
             </ul>
@@ -64,6 +64,16 @@
 
         <label for="password">Lösenord</label>
         <input type="password" name="password" id="password">
+
+        <label for="role_id">Välj roll</label>
+        <select name="role_id" id="role_id">
+            <?php foreach ($roles as $role): ?>
+                <option value="<?= esc($role['id']) ?>" <?= old('role_id') == $role['id'] ? 'selected' : '' ?>>
+                    <?= esc($role['name']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
 
         <button type="submit">Registrera</button>
     </form>

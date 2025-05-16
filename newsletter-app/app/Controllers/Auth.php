@@ -4,14 +4,19 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\Models\Session;
+use App\Models\Role;
+use App\Models\UserRole;
 
 class Auth extends BaseController
 {
     public function register()
     {
+        $roleModel = new Role();
+
         if ($this->request->getMethod() === 'POST') {
 
             $userModel = new User();
+            $userRoleModel = new UserRole();
 
             $data = [
                 'first_name' => $this->request->getPost('first_name'),
@@ -20,17 +25,32 @@ class Auth extends BaseController
                 'password_raw' => $this->request->getPost('password'), // raw password
             ];
 
+            $role = $this->request->getPost('role_id');
+            
+
             if (!$userModel->save($data)) {
                 $errors = $userModel->errors();
                 if (empty($errors)) {
                     $errors = ['db' => $userModel->db->error()['message']];
                 }
 
+                $userId = $userModel->getInsertID();
+
+                if ($role) {
+                    $userRoleModel->insert([
+                        'user_id' => $userId,
+                        'role_id' => $role
+                    ]);
+                }
+
                 return view('auth/register', ['errors' => $errors]);
             }
             return redirect()->to('/login')->with('message', 'Registrering lyckades! Du kan nu logga in.');
         } else {
-            return view('auth/register');
+
+            $roles = $roleModel->findAll();
+            
+            return view('auth/register', ['roles' => $roles]);
         }
     }
 
