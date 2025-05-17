@@ -7,7 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 
-
+$routes->setAutoRoute(false);
 $routes->get('/', 'Home::index');
 $routes->get('/register', 'Auth::register');
 $routes->post('/register', 'Auth::register');
