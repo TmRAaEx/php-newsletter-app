@@ -20,5 +20,6 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 });
 
 $routes->group('', ['filter' => 'subscriber'], function ($routes) {
-    $routes->get('/newsletters/(:num)', 'Newsletters::Single/$1');
+    $routes->get('/newsletters/(:num)', 'Newsletters::single/$1');
+    $routes->post('/newsletters/subscribe', 'Newsletters::subscribe');
 });
