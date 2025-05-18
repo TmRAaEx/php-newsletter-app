@@ -39,16 +39,25 @@ class SubscriberFilter implements FilterInterface
         $userModel = new User();
         $userRoleModel = new UserRole();
         $roleModel = new Role();
-
+        
+        //fetch all roles for the user
         $user = $userModel->where('id', $userId)->first();
-        $userRole = $userRoleModel->where('user_id', $userId)->first();
-        $role = $roleModel->where('id', $userRole['role_id'])->first();
+        $userRoles = $userRoleModel->where('user_id', $userId)->findAll();
 
-        if (!$user || $role['name'] !== 'subscriber') {
-            session()->setFlashdata('message', 'Du måste vara inloggad som prenumerant.');
+        $roleIds = array_column($userRoles, 'role_id');
+
+        $rolesResult = $roleModel->whereIn('id', $roleIds)->findAll();
+        $roleNames = array_column($rolesResult, 'name');
+
+
+
+
+        // Check if the user is a subscriber
+        if (!$user || !in_array('subscriber', $roleNames)) {
+            session()->setFlashdata('error', 'Du måste vara inloggad som prenumerant för att se denna sida.');
             session()->remove('session_token');
             session()->remove('user_id');
-            return redirect()->to('/message');
+            return redirect()->to('/login');
         }
 
         return;
