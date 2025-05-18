@@ -10,5 +10,7 @@
         <h1><?= esc($newsletter['name']) ?></h1>
         <p><?= esc($newsletter['description']) ?></p>
     <?php endif; ?>
+
+    
 </body>
 </html>

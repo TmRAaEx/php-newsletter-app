@@ -9,6 +9,8 @@ use CodeIgniter\Filters\FilterInterface;
 
 
 use App\Models\User;
+use App\Models\UserRole;
+use App\Models\Role;
 use App\Helpers\AuthHelper;
 /**
  * SubscriberFilter
@@ -21,21 +23,35 @@ class SubscriberFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
 
-        $session = AuthHelper::isLoggedIn();
+        log_message('info', 'SubscriberFilter: Checking if user is a subscriber.');
+
+        $session = AuthHelper::validateSession();
+
+        log_message('info', 'SubscriberFilter: Session validation result: ' . ($session ? 'valid' : 'invalid'));
         if (!$session) {
-            session()->destroy();
-            return redirect()->to('/login')->with('error', 'Din session har gått ut.');
+            session()->setFlashdata('error', 'Din session har gått ut.');
+            session()->remove('session_token');
+            session()->remove('user_id');
+            return redirect()->to('/login');
         }
         // Check if the user is a subscriber
         $userId = session('user_id');
         $userModel = new User();
+        $userRoleModel = new UserRole();
+        $roleModel = new Role();
 
         $user = $userModel->where('id', $userId)->first();
+        $userRole = $userRoleModel->where('user_id', $userId)->first();
+        $role = $roleModel->where('id', $userRole['role_id'])->first();
 
-        if (!$user || $user['role'] !== 'subscriber') {
-            return redirect()->to('/')->with('error', 'Du måste vara inloggad som prenumerant.');
+        if (!$user || $role['name'] !== 'subscriber') {
+            session()->setFlashdata('message', 'Du måste vara inloggad som prenumerant.');
+            session()->remove('session_token');
+            session()->remove('user_id');
+            return redirect()->to('/message');
         }
 
+        return;
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

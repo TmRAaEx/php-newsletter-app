@@ -18,7 +18,7 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $session = AuthHelper::isLoggedIn();
+        $session = AuthHelper::validateSession();
 
         if (!$session) {
             session()->destroy();

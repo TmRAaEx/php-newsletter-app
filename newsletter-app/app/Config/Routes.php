@@ -18,6 +18,7 @@ $routes->get('/newsletters', 'Newsletters::index');
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/profile', 'Profile::index');    
 });
+
 $routes->group('', ['filter' => 'subscriber'], function ($routes) {
     $routes->get('/newsletters/(:num)', 'Newsletters::Single/$1');
 });

@@ -10,13 +10,13 @@ use App\Models\Session;
  */
 class AuthHelper
 {
-    public static function isLoggedIn()
+    public static function validateSession()
     {
         $sessionToken = session('session_token');
         $userId = session('user_id');
 
         if (!$sessionToken || !$userId) {
-            return redirect()->to('/login')->with('error', 'Du måste vara inloggad.');
+            return false;
         }
 
         // Check if the session token is valid
@@ -27,6 +27,6 @@ class AuthHelper
             ->where('expires_at >=', date('Y-m-d H:i:s'))
             ->first();
         
-        return $session ?? false;    
+        return $session ? true : false;    
     }
 }
