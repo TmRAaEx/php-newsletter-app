@@ -11,10 +11,12 @@
         MYSQL_DATABASE: newsletter_saas
 
     site:
-      depends_on:
-        - db
+      build:
+        context: .
+        dockerfile: Dockerfile  
+
       volumes:
-        - ./newsletter-app:/var/www/newsletter-app
+        - ../newsletter-app:/var/www/newsletter-app
       image: php-local:local
       restart: no
       ports:
