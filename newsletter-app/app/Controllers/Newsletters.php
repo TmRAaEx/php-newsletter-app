@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\Newsletter;
 
 
-class newsletters extends BaseController
+class Newsletters extends BaseController
 
 {
     public function index()
