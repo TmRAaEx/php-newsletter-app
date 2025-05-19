@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Session;
 use App\Models\Role;
 use App\Models\UserRole;
+use Mailgun\Mailgun;
 
 class Auth extends BaseController
 {
@@ -111,7 +112,8 @@ class Auth extends BaseController
             }
         }
         $redirectError = session()->getFlashdata('error');
-        return view('auth/login' , ['error' => $redirectError]);
+        $redirectMessage = session()->getFlashdata('message');
+        return view('auth/login', ['error' => $redirectError, 'message' => $redirectMessage]);
     }
 
 
@@ -125,5 +127,45 @@ class Auth extends BaseController
     {
         \App\Helpers\AuthHelper::logOutAll();
         return redirect()->to('/message')->with('message', 'Du har loggats ut från alla enheter.');
+    }
+
+
+    public function resetPasswordEmail()
+    {
+
+        $userModel = new User();
+        $mailgun = Mailgun::create(env('mailgun.api_key'));
+        $mailgun_account = env('mailgun.account');
+
+
+        $receiver = $this->request->getPost('email');
+
+        $user = $userModel->where('email', $receiver)->first();
+        if (!$user) {
+            return redirect()->to('login')->with('error', 'Ingen användare med den här e-postadressen finns.');
+        }
+        $first_name = $user['first_name'];
+        $last_name = $user['last_name'];
+        $html = view('emails/reset_password', [
+            'email' => $receiver,
+            'name' => $first_name,
+            'link' => base_url('/reset-password')
+        ]);
+        $result = $mailgun->messages()->send(
+            'sandboxd89b984190d5429fa384fdf062fcf67f.mailgun.org',
+            [
+                'from' => "Newsletters <postmaster@$mailgun_account>",
+                'to' => "$first_name $last_name <$receiver>",
+                'subject' => 'Återställ lösenord',
+                'html' => $html,
+            ]
+        );
+
+        $message = $result->getMessage();
+        if ($message !== 'Queued. Thank you.') {
+            return redirect()->to('login')->with('error', 'Ett fel inträffade när e-postmeddelandet skulle skickas.');
+        }
+
+        return redirect()->to('/login')->with('message', 'Ett e-postmeddelande har skickats för att återställa ditt lösenord.');
     }
 }
