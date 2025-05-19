@@ -8,7 +8,7 @@ class Pages extends BaseController
     {
         return view('home_page');
     }
-
+    //todo refactor message into a toaster notification
     public function message(): string
 {
     $msg = session()->getFlashdata('message');
