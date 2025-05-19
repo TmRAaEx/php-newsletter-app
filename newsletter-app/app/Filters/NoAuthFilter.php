@@ -11,25 +11,22 @@ use App\Helpers\AuthHelper;
  * AuthFilter
  *
  * This filter checks if the user is logged in by verifying the session token and user ID.
- * If the user is not logged in, they are redirected to the login page.
+ * If the user is logged in, they are redirected to the profile page.
  */
-class AuthFilter implements FilterInterface
+class NoAuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
         $session = AuthHelper::validateSession();
 
-        if (!$session) {
-            session()->destroy();
-            return redirect()->to('/login')->with('error', 'Din session har gått ut.');
+        if ($session) {
+            return redirect()->to('/profile');
         }
-
-
         return;
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        
+
     }
 }

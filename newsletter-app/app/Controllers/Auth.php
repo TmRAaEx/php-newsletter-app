@@ -104,13 +104,26 @@ class Auth extends BaseController
                     'logged_in' => true,
                 ]);
 
-                return redirect()->to('/')->with('message', 'Inloggning lyckades!');
+                return redirect()->to('/message')->with('message', 'Inloggning lyckades!');
             } else {
                 $cache->save($key, $attempts + 1, $lockoutMinutes * 60);
                 return view('auth/login', ['error' => 'Felaktig e-postadress eller lösenord.']);
             }
         }
+        $redirectError = session()->getFlashdata('error');
+        return view('auth/login' , ['error' => $redirectError]);
+    }
 
-        return view('auth/login');
+
+    public function logout()
+    {
+        \App\Helpers\AuthHelper::logout();
+        return redirect()->to('/message')->with('message', 'Du har loggat ut.');
+    }
+
+    public function logOutAll()
+    {
+        \App\Helpers\AuthHelper::logOutAll();
+        return redirect()->to('/message')->with('message', 'Du har loggats ut från alla enheter.');
     }
 }

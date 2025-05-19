@@ -40,15 +40,7 @@
     </style>
 
     <h2>Logga in</h2>
-    <?php
-    $sessionError = session()->getFlashdata('error');
-    if (!empty($sessionError)): ?>
-        <div class="error">
-            <h1>Error</h1>
-            <p><?= esc($sessionError) ?></p>
-        </div>
-    <?php endif; ?>
-
+   
     <?php if (!empty($error)): ?>
         <div class="error">
             <h1>Error</h1>

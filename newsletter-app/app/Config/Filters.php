@@ -36,6 +36,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'auth'         => \App\Filters\AuthFilter::class,
         'subscriber'    => \App\Filters\SubscriberFilter::class,
+        'noauth'        => \App\Filters\NoAuthFilter::class,
     ];
 
     /**
