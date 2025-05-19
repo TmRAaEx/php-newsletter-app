@@ -18,7 +18,7 @@ $routes->get('/newsletters', 'Newsletters::index');
 $routes->get('/message', 'Pages::message');
 
 
-
+$router->post('reset-password-email', 'Auth::resetPasswordEmail');
 
 
 // Auth pages, only accesible if not logged in

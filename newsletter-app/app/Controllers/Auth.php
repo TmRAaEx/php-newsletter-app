@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Session;
 use App\Models\Role;
 use App\Models\UserRole;
+use Mailgun\Mailgun;
 
 class Auth extends BaseController
 {
@@ -125,5 +126,31 @@ class Auth extends BaseController
     {
         \App\Helpers\AuthHelper::logOutAll();
         return redirect()->to('/message')->with('message', 'Du har loggats ut från alla enheter.');
+    }
+
+
+    public function resetPasswordMail()
+    {
+
+        $mailgun = Mailgun::create(env('mailgun.api_key'));
+        $mailgun_account = env('mailgun.account');
+        
+        
+        $receiver = $this->request->getPost('email');
+        $html = view('emails/reset_password', [
+            'email' => $receiver,
+            'link' => base_url('/reset-password')
+        ]);
+        $result = $mailgun->messages()->send(
+            'sandboxd89b984190d5429fa384fdf062fcf67f.mailgun.org',
+            [
+                'from' => "Mailgun Sandbox <postmaster@$mailgun_account>",
+                'to' => $receiver,
+                'subject' => 'Återställ lösenord',
+                'html' => $html,
+            ]
+        );
+
+        return $result->getMessage();
     }
 }
