@@ -36,12 +36,13 @@ class AuthHelper
         }
 
         // If the session is valid, refresh the session expiration time
-        $sessionModel->where('session_token', $sessionToken)
+        $sessionModel->builder()
+            ->where('session_token', $sessionToken)
             ->where('user_id', $userId)
             ->update(['expires_at' => date('Y-m-d H:i:s', strtotime('+30 days'))]);
-        
-      
-        return true;    
+
+
+        return true;
     }
 
     public static function logout()
