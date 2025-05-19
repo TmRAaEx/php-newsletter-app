@@ -112,7 +112,7 @@ class Auth extends BaseController
             }
         }
         $redirectError = session()->getFlashdata('error');
-        return view('auth/login' , ['error' => $redirectError]);
+        return view('auth/login', ['error' => $redirectError]);
     }
 
 
@@ -132,13 +132,21 @@ class Auth extends BaseController
     public function resetPasswordMail()
     {
 
+        $userModel = new User();
         $mailgun = Mailgun::create(env('mailgun.api_key'));
         $mailgun_account = env('mailgun.account');
-        
-        
+
+
         $receiver = $this->request->getPost('email');
+
+        $user = $userModel->where('email', $receiver)->first();
+        if (!$user) {
+            return redirect()->to('login')->with('error', 'Ingen användare med den här e-postadressen finns.');
+        }
+
         $html = view('emails/reset_password', [
             'email' => $receiver,
+            'name' => $user['first_name'],
             'link' => base_url('/reset-password')
         ]);
         $result = $mailgun->messages()->send(
