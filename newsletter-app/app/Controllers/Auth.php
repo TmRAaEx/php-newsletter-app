@@ -113,4 +113,17 @@ class Auth extends BaseController
 
         return view('auth/login');
     }
+
+
+    public function logout()
+    {
+        \App\Helpers\AuthHelper::logout();
+        return redirect()->to('/message')->with('message', 'Du har loggat ut.');
+    }
+
+    public function logOutAll()
+    {
+        \App\Helpers\AuthHelper::logOutAll();
+        return redirect()->to('/message')->with('message', 'Du har loggats ut från alla enheter.');
+    }
 }

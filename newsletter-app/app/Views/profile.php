@@ -16,6 +16,11 @@
         <p>Email: <?= esc($user['email']) ?></p>
         <p>Registrerad: <?= esc($user['created_at']) ?></p>
     <?php endif ?>
+
+    <form action="/logout" method="post">
+        <button type="submit">Logga ut</button>
+    </form>
+
     <h2>Inloggade enheter</h2>
     <?php if (!empty($sessions)): ?>
         <ul>
@@ -26,7 +31,11 @@
                     <p>Senast Aktivitet: <?= esc($session['created_at']) ?></p>
                 </li>
             <?php endforeach; ?>
+
         </ul>
+        <form action="/logout-all" method="post">
+            <button type="submit">Logga ut från alla enheter</button>
+        </form>
     <?php endif; ?>
 </body>
 
