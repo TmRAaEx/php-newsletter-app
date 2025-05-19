@@ -47,9 +47,9 @@
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($$message)): ?>
+    <?php if (!empty($message)): ?>
         <div class="message">
-            <p><?= esc($$message) ?></p>
+            <p><?= esc($message) ?></p>
         </div>
     <?php endif; ?>
 
