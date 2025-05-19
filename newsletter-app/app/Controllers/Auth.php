@@ -112,7 +112,8 @@ class Auth extends BaseController
             }
         }
         $redirectError = session()->getFlashdata('error');
-        return view('auth/login', ['error' => $redirectError]);
+        $redirectMessage = session()->getFlashdata('message');
+        return view('auth/login', ['error' => $redirectError, 'message' => $redirectMessage]);
     }
 
 
@@ -129,7 +130,7 @@ class Auth extends BaseController
     }
 
 
-    public function resetPasswordMail()
+    public function resetPasswordEmail()
     {
 
         $userModel = new User();
@@ -143,22 +144,28 @@ class Auth extends BaseController
         if (!$user) {
             return redirect()->to('login')->with('error', 'Ingen användare med den här e-postadressen finns.');
         }
-
+        $first_name = $user['first_name'];
+        $last_name = $user['last_name'];
         $html = view('emails/reset_password', [
             'email' => $receiver,
-            'name' => $user['first_name'],
+            'name' => $first_name,
             'link' => base_url('/reset-password')
         ]);
         $result = $mailgun->messages()->send(
             'sandboxd89b984190d5429fa384fdf062fcf67f.mailgun.org',
             [
-                'from' => "Mailgun Sandbox <postmaster@$mailgun_account>",
-                'to' => $receiver,
+                'from' => "Newsletters <postmaster@$mailgun_account>",
+                'to' => "$first_name $last_name <$receiver>",
                 'subject' => 'Återställ lösenord',
                 'html' => $html,
             ]
         );
 
-        return $result->getMessage();
+        $message = $result->getMessage();
+        if ($message !== 'Queued. Thank you.') {
+            return redirect()->to('login')->with('error', 'Ett fel inträffade när e-postmeddelandet skulle skickas.');
+        }
+
+        return redirect()->to('/login')->with('message', 'Ett e-postmeddelande har skickats för att återställa ditt lösenord.');
     }
 }

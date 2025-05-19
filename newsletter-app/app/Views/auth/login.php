@@ -43,10 +43,16 @@
    
     <?php if (!empty($error)): ?>
         <div class="error">
-            <h1>Error</h1>
             <p><?= esc($error) ?></p>
         </div>
     <?php endif; ?>
+
+    <?php if (!empty($$message)): ?>
+        <div class="message">
+            <p><?= esc($$message) ?></p>
+        </div>
+    <?php endif; ?>
+
     <form method="post" action="<?= site_url('login') ?>">
         <label for="email">Email</label>
         <input type="text" name="email" id="email" value="<?= old('email') ?>">
