@@ -12,16 +12,23 @@ use CodeIgniter\Router\RouteCollection;
 $routes->setAutoRoute(false);
 
 
-//public pages
+//public routes
 $routes->get('/', 'Pages::home');
 $routes->get('/newsletters', 'Newsletters::index');
 $routes->get('/message', 'Pages::message');
 
 
+//password reset routes
+$routes->get('/forgot-password', 'Auth::forgotPassword');
 $routes->post('/reset-password-email', 'Auth::resetPasswordEmail');
 
+$routes->get('/reset-password', 'Auth::resetPassword');
+$routes->post('/reset-password', 'Auth::resetPassword');
+//-------------------
 
-// Auth pages, only accesible if not logged in
+
+
+// Auth routes, only accesible if not logged in
 $routes->group('', ['filter' => 'noauth'], function ( $routes) {
     $routes->get('/register', 'Auth::register');
     $routes->get('/login', 'Auth::login');
@@ -29,19 +36,24 @@ $routes->group('', ['filter' => 'noauth'], function ( $routes) {
     $routes->post('/register', 'Auth::register');
     $routes->post('/login', 'Auth::login');
 });
+//-------------------
 
 
-//pages that require an account
+//routes that require an account
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/profile', 'Profile::index'); 
     $routes->post('/logout', 'Auth::logout');   
     $routes->post('/logout-all', 'Auth::logoutAll');   
 });
+//-------------------
 
-// pages that require a subscriber account
+
+// routes that require a subscriber account
 $routes->group('', ['filter' => 'subscriber'], function ($routes) {
     $routes->get('/newsletters/(:num)', 'Newsletters::single/$1');
     $routes->post('/newsletters/subscribe', 'Newsletters::subscribe');
 });
+//-------------------
 
-//pages that require an customer account
+
+//routes that require an customer account

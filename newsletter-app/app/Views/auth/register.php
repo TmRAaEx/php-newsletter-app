@@ -76,6 +76,7 @@
 
 
         <button type="submit">Registrera</button>
+        <p>Har du redan ett konto? <a href="<?= site_url('login') ?>">Logga in här</a></p>
     </form>
 
 </body>
