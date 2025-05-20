@@ -29,7 +29,7 @@ $routes->post('/reset-password', 'Auth::resetPassword');
 
 
 // Auth routes, only accesible if not logged in
-$routes->group('', ['filter' => 'noauth'], function ( $routes) {
+$routes->group('', ['filter' => 'noauth'], function ($routes) {
     $routes->get('/register', 'Auth::register');
     $routes->get('/login', 'Auth::login');
     //post requests
@@ -41,9 +41,9 @@ $routes->group('', ['filter' => 'noauth'], function ( $routes) {
 
 //routes that require an account
 $routes->group('', ['filter' => 'auth'], function ($routes) {
-    $routes->get('/profile', 'Profile::index'); 
-    $routes->post('/logout', 'Auth::logout');   
-    $routes->post('/logout-all', 'Auth::logoutAll');   
+    $routes->get('/profile', 'Profile::index');
+    $routes->post('/logout', 'Auth::logout');
+    $routes->post('/logout-all', 'Auth::logoutAll');
 });
 //-------------------
 
@@ -52,8 +52,19 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 $routes->group('', ['filter' => 'subscriber'], function ($routes) {
     $routes->get('/newsletters/(:num)', 'Newsletters::single/$1');
     $routes->post('/newsletters/subscribe', 'Newsletters::subscribe');
+
+    $routes->get('/newsletters/my-subscriptions', 'Subscriptions::subscriptions');
 });
 //-------------------
 
 
 //routes that require an customer account
+$routes->group('', ['filter' => 'customer'], function ($routes) {
+    $routes->get('/newsletters/create', 'Newsletters::create');
+    $routes->post('/newsletters/create', 'Newsletters::create');
+    $routes->get('/newsletters/edit/(:num)', 'Newsletters::edit/$1');
+    $routes->post('/newsletters/edit/(:num)', 'Newsletters::edit/$1');
+    $routes->post('/newsletters/delete/(:num)', 'Newsletters::delete/$1');
+
+    $routes->get('/newsletters/my-newsletters', 'Subscriptions::subscribers');
+});
