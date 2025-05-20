@@ -6,7 +6,6 @@ use App\Models\Newsletter;
 
 
 class Newsletters extends BaseController
-
 {
     public function index()
     {
@@ -14,9 +13,9 @@ class Newsletters extends BaseController
 
         $newsletters = $newsletterModel->findAll();
 
-        
 
-        return view("newsletters", ['newsletters'=> $newsletters]);
+
+        return view("newsletters/newsletters", ['newsletters' => $newsletters]);
     }
 
     public function single($id)
@@ -24,8 +23,8 @@ class Newsletters extends BaseController
         $newsletterModel = new Newsletter();
 
         $newsletter = $newsletterModel->find($id);
-    
-        return view("newsletter", ['newsletter'=> $newsletter]);
+
+        return view("newsletters/newsletter", ['newsletter' => $newsletter]);
     }
 
     public function subscribe()
@@ -36,8 +35,8 @@ class Newsletters extends BaseController
 
         $newsletter = $newsletterModel->find($newsletterId);
         $userId = $this->request->getPost('user_id');
-        
-       
+
+
 
         if ($newsletter) {
             $data = [
