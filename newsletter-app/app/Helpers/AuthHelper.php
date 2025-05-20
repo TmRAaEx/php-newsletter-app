@@ -36,7 +36,8 @@ class AuthHelper
         }
 
         // If the session is valid, refresh the session expiration time
-        $sessionModel->builder()
+        $sessionModel
+            ->builder()
             ->where('session_token', $sessionToken)
             ->where('user_id', $userId)
             ->update(['expires_at' => date('Y-m-d H:i:s', strtotime('+30 days'))]);
@@ -52,7 +53,8 @@ class AuthHelper
         $userId = session('user_id');
 
         // Delete the session from the database
-        $sessionModel->where('session_token', $sessionToken)
+        $sessionModel
+            ->where('session_token', $sessionToken)
             ->where('user_id', $userId)
             ->delete();
 
@@ -66,7 +68,8 @@ class AuthHelper
         $userId = session('user_id');
 
         // Delete all sessions for the user
-        $sessionModel->where('user_id', $userId)->delete();
+        $sessionModel
+            ->where('user_id', value: $userId)->delete();
 
         // Destroy the session
         session()->destroy();

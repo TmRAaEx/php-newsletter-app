@@ -37,6 +37,7 @@ class Filters extends BaseFilters
         'auth'         => \App\Filters\AuthFilter::class,
         'subscriber'    => \App\Filters\SubscriberFilter::class,
         'noauth'        => \App\Filters\NoAuthFilter::class,
+        'customer'      => \App\Filters\CustomerFilter::class,
     ];
 
     /**

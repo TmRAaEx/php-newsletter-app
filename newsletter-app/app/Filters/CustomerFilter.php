@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Filters;
 
 use CodeIgniter\HTTP\RequestInterface;
@@ -18,7 +17,7 @@ use App\Helpers\AuthHelper;
  * This filter checks if the user is a subscriber.
  * If the user is not a subscriber, they are redirected to the home page with an error message.
  */
-class SubscriberFilter implements FilterInterface
+class CustomerFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
@@ -32,12 +31,12 @@ class SubscriberFilter implements FilterInterface
             session()->remove('user_id');
             return redirect()->to('/login');
         }
-        // Check if the user is a subscriber
+        // Check if the user is a customer ----------------------------------------------------
         $userId = session('user_id');
         $userModel = new User();
         $userRoleModel = new UserRole();
         $roleModel = new Role();
-        
+
         //fetch all roles for the user
         $user = $userModel->where('id', $userId)->first();
         $userRoles = $userRoleModel->where('user_id', $userId)->findAll();
@@ -50,8 +49,8 @@ class SubscriberFilter implements FilterInterface
 
 
         // Check if the user is a subscriber
-        if (!$user || !in_array('subscriber', $roleNames)) {
-            session()->setFlashdata('error', 'Du måste vara inloggad som prenumerant för att se denna sida.');
+        if (!$user || !in_array('customer', $roleNames)) {
+            session()->setFlashdata('error', 'Du måste vara inloggad som kund för att se denna sida.');
             session()->remove('session_token');
             session()->remove('user_id');
             return redirect()->to('/login');
