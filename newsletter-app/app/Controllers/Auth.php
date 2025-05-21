@@ -90,14 +90,14 @@ class Auth extends BaseController
                 $cache->delete($key);
 
 
-
+                $userAgent = $this->parseUserAgent($this->request->getUserAgent()->getAgentString());
                 $session_token = bin2hex(random_bytes(32));
                 $expires_in_ms = 60 * 60 * 24 * 30; // one month
                 $sessionModel->save([
                     'user_id' => $user['id'],
                     'session_token' => $session_token,
                     'ip_address' => $this->request->getIPAddress(),
-                    'user_agent' => $this->request->getUserAgent()->getAgentString(),
+                    'user_agent' => $userAgent,
                     'expires_at' => date('Y-m-d H:i:s', time() + $expires_in_ms)
                 ]);
 
@@ -242,6 +242,43 @@ class Auth extends BaseController
         }
 
         return view('auth/reset_password', ['token' => $token, 'error' => session()->getFlashdata('error')]);
+    }
+
+
+    protected function parseUserAgent($userAgent)
+    {
+        $platform = 'Okänt OS';
+        $browser = 'Okänd webbläsare';
+
+        // Platform
+        if (preg_match('/linux/i', $userAgent)) {
+            $platform = 'Linux';
+        } elseif (preg_match('/macintosh|mac os x/i', $userAgent)) {
+            $platform = 'Mac';
+        } elseif (preg_match('/windows|win32/i', $userAgent)) {
+            $platform = 'Windows';
+        } elseif (preg_match('/iphone/i', $userAgent)) {
+            $platform = 'iPhone';
+        } elseif (preg_match('/android/i', $userAgent)) {
+            $platform = 'Android';
+        }
+
+        // browser
+        if (preg_match('/MSIE/i', $userAgent) || preg_match('/Trident/i', $userAgent)) {
+            $browser = 'Internet Explorer';
+        } elseif (preg_match('/Edge/i', $userAgent)) {
+            $browser = 'Edge';
+        } elseif (preg_match('/Firefox/i', $userAgent)) {
+            $browser = 'Firefox';
+        } elseif (preg_match('/Chrome/i', $userAgent)) {
+            $browser = 'Chrome';
+        } elseif (preg_match('/Safari/i', $userAgent)) {
+            $browser = 'Safari';
+        } elseif (preg_match('/Opera/i', $userAgent)) {
+            $browser = 'Opera';
+        }
+
+        return "$platform, $browser";
     }
 
 

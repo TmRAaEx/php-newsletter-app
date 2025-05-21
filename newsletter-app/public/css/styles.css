@@ -1,7 +1,9 @@
+@import url("./newletters.css");
+@import url("./profile.css");
 :root {
   /* Colors */
   --accent-color: #191181;
-
+  --darker-color: #403a50;
   /* Element sizes */
   --sidebar-width: clamp(120px, 20vw, 200px);
 
@@ -23,6 +25,8 @@ html,
 body {
   overflow-x: hidden;
   min-height: 100vh;
+  background-color: #ecebebc3;
+
 }
 
 a {
@@ -65,11 +69,36 @@ ul {
 #content {
   padding: 15px 20px 5px 20px;
   margin-left: var(--sidebar-width);
+  container-type: inline-size;
+}
+
+.title {
+  margin-bottom: 12px;
+  font-size: var(--font-large);
+}
+
+.button-link {
+  display: inline-block;
+  background-color: var(--accent-color);
+  padding: 5px 10px;
+  color: #ffff;
+  border-radius: 5px;
+  font-size: var(--font-small);
+  text-decoration: none;
 }
 
 footer {
+  position: absolute;
+  width: calc(100% - var(--sidebar-width));
   bottom: 0;
   margin-left: var(--sidebar-width);
   padding: 10px;
+  background-color: var(--darker-color);
   right: 0;
+  color: white;
+}
+
+#copyright {
+  width: 100%;
+  text-align: center;
 }

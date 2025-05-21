@@ -21,10 +21,15 @@ class Newsletters extends BaseController
     public function single($id)
     {
         $newsletterModel = new Newsletter();
+        $subscriptionModel = new \App\Models\Subscription();
+        $userId = session('user_id');
+
+        $subsciption = $subscriptionModel->where(['user_id' => $userId, 'newsletter_id' => $id])->first();
+        $isSubscribed = $subsciption ? true : false;
 
         $newsletter = $newsletterModel->find($id);
 
-        return view("newsletters/newsletter", ['newsletter' => $newsletter]);
+        return view("newsletters/newsletter", ['newsletter' => $newsletter, 'isSubscribed' => $isSubscribed]);
     }
 
     public function subscribe()

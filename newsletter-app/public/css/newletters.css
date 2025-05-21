@@ -1,0 +1,90 @@
+.newsletter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.newsletter-subscribers {
+  padding: 5px;
+  padding-left: 15px;
+  list-style-type: "- ";
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.newsletter-name {
+  font-size: var(--font-medium);
+  text-decoration: underline;
+}
+
+.newsletter-description {
+  font-size: var(--font-medium);
+  padding-left: 1rem;
+  padding-bottom: 2rem;
+}
+
+.subscribe-button {
+  display: inline-block;
+  background-color: #16a34a; /* Tailwind green-600 */
+  padding: 5px 10px;
+  color: #ffff;
+  border: none;
+  border-radius: 5px;
+  font-size: var(--font-small);
+  text-decoration: none;
+  cursor: pointer;
+}
+.unsubscribe-button {
+  display: inline-block;
+  background-color: red;
+  padding: 5px 10px;
+  color: #ffff;
+  border: none;
+  border-radius: 5px;
+  font-size: var(--font-small);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.newsletter-subscribers li {
+  font-size: var(--font-small);
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 5px;
+}
+
+.edit-form input[type="text"] {
+  padding: 5px;
+  max-width: 40%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: var(--font-small);
+}
+
+.edit-form button {
+  max-width: 40%;
+}
+
+/* based on the width of #content */
+@container (min-width: 500px) {
+  .newsletter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@container (min-width: 700px) {
+  .newsletter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@container (min-width: 1000px) {
+  .newsletter-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
