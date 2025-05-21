@@ -6,7 +6,6 @@ use App\Models\Newsletter;
 
 
 class Newsletters extends BaseController
-
 {
     public function index()
     {
@@ -14,9 +13,9 @@ class Newsletters extends BaseController
 
         $newsletters = $newsletterModel->findAll();
 
-        
 
-        return view("newsletters", ['newsletters'=> $newsletters]);
+
+        return view("newsletters/newsletters", ['newsletters' => $newsletters]);
     }
 
     public function single($id)
@@ -24,8 +23,8 @@ class Newsletters extends BaseController
         $newsletterModel = new Newsletter();
 
         $newsletter = $newsletterModel->find($id);
-    
-        return view("newsletter", ['newsletter'=> $newsletter]);
+
+        return view("newsletters/newsletter", ['newsletter' => $newsletter]);
     }
 
     public function subscribe()
@@ -36,8 +35,8 @@ class Newsletters extends BaseController
 
         $newsletter = $newsletterModel->find($newsletterId);
         $userId = $this->request->getPost('user_id');
-        
-       
+
+
 
         if ($newsletter) {
             $data = [
@@ -55,5 +54,41 @@ class Newsletters extends BaseController
         } else {
             return redirect()->to('/newsletters')->with('error', 'Newsletter not found.');
         }
+    }
+
+
+    public function editNewsletter($id)
+    {
+        $newsletterModel = new Newsletter();
+        $newsletter = $newsletterModel->find($id);
+        $user_id = session('user_id');
+
+        if ($newsletter['customer_id'] !== $user_id) {
+            return view('newsletters/edit', ['error' => 'Du äger inte detta nyhetsbrev!']);
+        }
+
+        $error = session()->getFlashData('error');
+
+        //handle post request
+        if ($this->request->getMethod() == 'POST') {
+            $name = $this->request->getPost('name');
+            $description = $this->request->getPost('description');
+
+
+            if (empty($name) || empty($description)) {
+                return redirect()->back()->with('error', 'Alla fält måste fyllas i.');
+            }
+
+            $data = [
+                'name' => $name,
+                'description' => $description
+            ];
+
+            $newsletterModel->update($id, $data);
+
+            return redirect()->to('newsletters/my-newsletters')->with('message', 'Uppdaterade nyhetsbrev #id:' . $id);
+        }
+
+        return view('newsletters/edit', ['newsletter' => $newsletter, 'error' => $error]);
     }
 }

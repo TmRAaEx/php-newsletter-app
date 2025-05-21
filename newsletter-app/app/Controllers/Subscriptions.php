@@ -31,7 +31,7 @@ class Subscriptions extends BaseController
                 ->findAll();
         }
 
-        return view('subscriptions', ['newsletters' => $newsletters]);
+        return view('newsletters/my-subscriptions', ['newsletters' => $newsletters]);
     }
 
     public function subscribers()
@@ -48,7 +48,7 @@ class Subscriptions extends BaseController
 
         $myNewsletterIds = array_column($myNewsletters, 'id');
 
-        $subscritions = [];
+        $subscriptions = [];
         $subscribers = [];
 
         if (!empty($myNewsletterIds)) {
@@ -65,7 +65,7 @@ class Subscriptions extends BaseController
         }
 
 
-        return view('subscribers', [
+        return view('newsletters/my-newsletters', [
             'newsletters' => $myNewsletters,
             'subscriptions' => $subscriptions,
             'subscribers' => $subscribers

@@ -14,16 +14,15 @@
         <p>Du har inga nyhetsbrev.</p>
     <?php else: ?>
         <?php foreach ($newsletters as $newsletter): ?>
-            <h2><?= esc($newsletter['name']) ?></h2>
-            <p><?= esc($newsletter['description'] ?? 'Ingen beskrivning tillgänglig.') ?></p>
-
+            <h2 style="text-decoration: underline;"><?= esc($newsletter['name']) ?></h2>
+            <a href="<?= base_url('newsletters/edit/' . $newsletter['id']) ?>">Redigera nyhetsbrev</a>
             <?php
-            // Filtrera prenumerationer för detta nyhetsbrev
+            // Filter subscriptions for the current newsletter
             $newsletterSubscriptions = array_filter($subscriptions, function ($subscription) use ($newsletter) {
                 return $subscription['newsletter_id'] === $newsletter['id'];
             });
 
-            // Hämta användare för dessa prenumerationer
+            // get all subscribers for the current newsletter
             $newsletterSubscribers = array_filter($subscribers, function ($subscriber) use ($newsletterSubscriptions) {
                 $subscriberIds = array_column($newsletterSubscriptions, 'user_id');
                 return in_array($subscriber['id'], $subscriberIds);
