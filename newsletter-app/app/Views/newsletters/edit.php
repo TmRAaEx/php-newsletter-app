@@ -12,13 +12,13 @@ $this->extend('layouts/main'); ?>
 
 <?php if (!empty($newsletter)): ?>
     <h1>Redigera nyhetsbrev: <?= esc($newsletter['name']) ?></h1>
-    <form action="<?= base_url('newsletters/edit/' . $newsletter['id']) ?>" method="post">
+    <form  class="edit-form" action="<?= base_url('newsletters/edit/' . $newsletter['id']) ?>" method="post">
         <label for="name">Namn:</label>
         <input type="text" name="name" value="<?= $newsletter['name'] ?>">
         <label for="description">Beskrivning:</label>
-        <input type="textarea" name="description" value="<?= $newsletter['description'] ?>">
+        <input type="text" name="description" value="<?= $newsletter['description'] ?>">
 
-        <button role="submit">Redigera</button>
+        <button class="button-link" type="submit">Redigera</button>
     </form>
 <?php endif; ?>
 <?php $this->endSection() ?>
