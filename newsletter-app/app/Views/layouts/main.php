@@ -14,29 +14,29 @@
             <ul class="nav-list">
                 <li class="nav-link">
                     <a href=" <?= base_url('/') ?>">
-                    Hem
+                        Hem
                     </a>
                 </li>
                 <li class="nav-link">
                     <a href=" <?= base_url('/newsletters') ?>">
-                    Nyhetsbrev
+                        Nyhetsbrev
                     </a>
                 </li>
                 <?php if (session('session_token')): ?>
                     <li class="nav-link">
                         <a href=" <?= base_url('/profile') ?>">
-                        Profil
+                            Profil
                         </a>
                     </li>
                 <?php else: ?>
                     <li class="nav-link">
                         <a href=" <?= base_url('/login') ?>">
-                        Logga in
+                            Logga in
                         </a>
                     </li>
                     <li class="nav-link">
                         <a href=" <?= base_url('/register') ?>">
-                        Skapa konto
+                            Registrera
                         </a>
                     </li>
                 <?php endif; ?>
@@ -46,9 +46,11 @@
 
     <main id="content">
         <?= $this->renderSection('content') ?>
-        <footer>
-            <p>&copy; <?= date('Y') ?> My Newsletter App</p>
     </main>
+
+    <footer>
+        <p>&copy; <?= date('Y') ?> My Newsletter App</p>
+    </footer>
 </body>
 
 </html>

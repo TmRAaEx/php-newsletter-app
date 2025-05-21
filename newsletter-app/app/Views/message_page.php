@@ -6,7 +6,6 @@ echo $message ?? "Meddelanden"; ?><?php $this->endSection() ?>
 <?php if (!empty($message)): ?>
     <p><?= esc($message) ?></p>
 <?php endif; ?>
-
 <?php $this->endSection(); ?>
 
 <!-- TODO: Refactor into a toaster notification -->

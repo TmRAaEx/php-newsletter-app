@@ -1,41 +1,10 @@
-<!DOCTYPE html>
-<html>
+<?= $this->extend('layouts/main'); ?>
+<?= $this->section('title'); ?> Skapa konto <?= $this->endSection(); ?>
 
-<head>
-    <title>Registrera konto</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 500px;
-            margin: auto;
-            padding: 1em;
-        }
+<?= $this->section('content'); ?>
 
-        .error {
-            color: red;
-        }
 
-        label {
-            display: block;
-            margin-top: 1em;
-        }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 0.5em;
-            margin-top: 0.3em;
-        }
-
-        button {
-            margin-top: 1.5em;
-            padding: 0.5em 1em;
-        }
-    </style>
-</head>
-
-<body>
 
     <h2>Skapa konto</h2>
 
@@ -79,6 +48,4 @@
         <p>Har du redan ett konto? <a href="<?= site_url('login') ?>">Logga in här</a></p>
     </form>
 
-</body>
-
-</html>
+    <?= $this->endSection(); ?>
