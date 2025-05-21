@@ -14,8 +14,8 @@
         <p>Du har inga nyhetsbrev.</p>
     <?php else: ?>
         <?php foreach ($newsletters as $newsletter): ?>
-            <h2><?= esc($newsletter['name']) ?></h2>
-            <a href="<?= base_url('newsletters/edit/' . $newsletter['id']) ?>">Ändra nyhetsbrev</a>
+            <h2 style="text-decoration: underline;"><?= esc($newsletter['name']) ?></h2>
+            <a href="<?= base_url('newsletters/edit/' . $newsletter['id']) ?>">Redigera nyhetsbrev</a>
             <?php
             // Filter subscriptions for the current newsletter
             $newsletterSubscriptions = array_filter($subscriptions, function ($subscription) use ($newsletter) {

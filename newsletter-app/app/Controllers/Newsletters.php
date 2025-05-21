@@ -55,4 +55,40 @@ class Newsletters extends BaseController
             return redirect()->to('/newsletters')->with('error', 'Newsletter not found.');
         }
     }
+
+
+    public function editNewsletter($id)
+    {
+        $newsletterModel = new Newsletter();
+        $newsletter = $newsletterModel->find($id);
+        $user_id = session('user_id');
+
+        if ($newsletter['customer_id'] !== $user_id) {
+            return view('newsletters/edit', ['error' => 'Du äger inte detta nyhetsbrev!']);
+        }
+
+        $error = session()->getFlashData('error');
+
+        //handle post request
+        if ($this->request->getMethod() == 'POST') {
+            $name = $this->request->getPost('name');
+            $description = $this->request->getPost('description');
+
+
+            if (empty($name) || empty($description)) {
+                return redirect()->back()->with('error', 'Alla fält måste fyllas i.');
+            }
+
+            $data = [
+                'name' => $name,
+                'description' => $description
+            ];
+
+            $newsletterModel->update($id, $data);
+
+            return redirect()->to('newsletters/my-newsletters')->with('message', 'Uppdaterade nyhetsbrev #id:' . $id);
+        }
+
+        return view('newsletters/edit', ['newsletter' => $newsletter, 'error' => $error]);
+    }
 }
