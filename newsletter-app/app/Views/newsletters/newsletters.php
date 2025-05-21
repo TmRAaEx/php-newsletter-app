@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php $this->extend('layouts/main'); ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<?php $this->section('title') ?>Nyhetsbrev<?php $this->endSection() ?>
+<?php $this->section('content') ?>
 
 <style>
     .newsletters ul {
@@ -39,7 +35,8 @@
             <ul>
                 <?php foreach ($newsletters as $field => $newsletter): ?>
                     <li class="newletter-item">
-                        <a href="<?= base_url('newsletters/' . $newsletter['id']) ?>" style="text-decoration: none; color: unset;">
+                        <a href="<?= base_url('newsletters/' . $newsletter['id']) ?>"
+                            style="text-decoration: none; color: unset;">
                             <?= view('components/newsletter_card', ['name' => $newsletter['name'], 'date' => $newsletter['updated_at']]) ?>
                         </a>
                     </li>
@@ -47,6 +44,5 @@
             </ul>
         </div>
     <?php endif; ?>
-</body>
 
-</html>
+    <?php $this->endSection() ?>

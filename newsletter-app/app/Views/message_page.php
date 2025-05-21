@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <?php if(!empty($message)): ?>
-        <h1>Message</h1>
-        <p><?= esc($message) ?></p>
-    <?php endif; ?>
-</body>
-</html>
+<?php $this->extend('layouts/main') ?>
+<?php $this->section('title');
+echo $message ?? "Meddelanden"; ?><?php $this->endSection() ?>
+<?php $this->section('content') ?>
 
+<?php if (!empty($message)): ?>
+    <p><?= esc($message) ?></p>
+<?php endif; ?>
 
-//TODO: Refactor into a toaster notification
+<?php $this->endSection(); ?>
+
+<!-- TODO: Refactor into a toaster notification -->
