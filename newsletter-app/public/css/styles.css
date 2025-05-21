@@ -1,5 +1,5 @@
 @import url("./newletters.css");
-
+@import url("./profile.css");
 :root {
   /* Colors */
   --accent-color: #191181;
@@ -25,6 +25,8 @@ html,
 body {
   overflow-x: hidden;
   min-height: 100vh;
+  background-color: #ecebebc3;
+
 }
 
 a {
