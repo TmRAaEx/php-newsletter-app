@@ -10,8 +10,8 @@ class Pages extends BaseController
     }
     //todo refactor message into a toaster notification
     public function message(): string
-{
-    $msg = session()->getFlashdata('message');
-    return view('message_page', ['message' => $msg ?? '']);
-}
+    {
+        $msg = session()->getFlashdata('message');
+        return view('message_page', ['message' => $msg ?? 'Inga meddelanden']);
+    }
 }
