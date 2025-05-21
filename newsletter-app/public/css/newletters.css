@@ -1,0 +1,42 @@
+.newsletter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.newsletter-subscribers {
+  padding: 5px;
+  padding-left: 15px;
+  list-style-type: "- ";
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.newsletter-name{
+    font-size: var(--font-medium);
+    text-decoration: underline;
+}
+
+.newsletter-subscribers li {
+  font-size: var(--font-small);
+}
+
+/* based on the width of #content */
+@container (min-width: 500px) {
+  .newsletter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@container (min-width: 700px) {
+  .newsletter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@container (min-width: 1000px) {
+  .newsletter-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

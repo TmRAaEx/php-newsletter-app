@@ -66,7 +66,7 @@
     </main>
 
     <footer>
-        <p>&copy; <?= date('Y') ?> My Newsletter App</p>
+        <p id="copyright">&copy; <?= date('Y') ?> My Newsletter App</p>
     </footer>
 </body>
 
