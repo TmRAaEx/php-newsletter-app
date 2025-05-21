@@ -76,6 +76,8 @@ class Auth extends BaseController
         if ($this->request->getMethod() === 'POST') {
             $userModel = new User();
             $sessionModel = new Session();
+            $userRoleModel = new UserRole();
+            $roleModel = new Role();
 
 
             $email = $this->request->getPost('email');
@@ -99,10 +101,21 @@ class Auth extends BaseController
                     'expires_at' => date('Y-m-d H:i:s', time() + $expires_in_ms)
                 ]);
 
+
+                $userRoles = $userRoleModel->where('user_id', $user['id'])->findAll();
+
+                $roleIds = array_column($userRoles, 'role_id');
+
+                $roles = $roleModel->whereIn('id', $roleIds)->findAll();
+
+                $roleNames = array_column($roles, 'name');
+
+                log_message('info', 'User logged in: ' . $user['email'] . ' with roles: ' . implode(', ', $roleNames));
+
                 session()->set([
                     'session_token' => $session_token,
                     'user_id' => $user['id'],
-                    'logged_in' => true,
+                    'user_roles' => $roleNames,
                 ]);
 
                 return redirect()->to('/message')->with('message', 'Inloggning lyckades!');
