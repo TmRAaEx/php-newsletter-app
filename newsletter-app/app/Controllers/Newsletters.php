@@ -62,6 +62,36 @@ class Newsletters extends BaseController
     }
 
 
+    public function create()
+    {
+        $newsletterModel = new Newsletter();
+        $user_id = session('user_id');
+
+        //handle post request
+
+        if ($this->request->getMethod() == 'POST') {
+            $name = $this->request->getPost('name');
+            $description = $this->request->getPost('description');
+
+            if (empty($name) || empty($description)) {
+                return redirect()->back()->with('error', 'Alla fält måste fyllas i.');
+            }
+
+            $data = [
+                'name' => $name,
+                'description' => $description,
+                'customer_id' => $user_id
+            ];
+
+            $newsletterModel->insert($data);
+
+            return redirect()->to('newsletters/my-newsletters')->with('message', 'Skapade nyhetsbrev #id:' . $newsletterModel->insertID());
+        }
+
+        $error = session()->getFlashData('error');
+        return view('newsletters/create', ['error' => $error]);
+    }
+
     public function editNewsletter($id)
     {
         $newsletterModel = new Newsletter();

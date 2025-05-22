@@ -64,6 +64,7 @@ $routes->group('', ['filter' => 'customer'], function ($routes) {
     $routes->post('/newsletters/create', 'Newsletters::create');
     $routes->get('/newsletters/edit/(:num)', 'Newsletters::editNewsletter/$1');
     $routes->post('/newsletters/edit/(:num)', 'Newsletters::editNewsletter/$1');
+    
     $routes->post('/newsletters/delete/(:num)', 'Newsletters::delete/$1');
 
     $routes->get('/newsletters/my-newsletters', 'Subscriptions::subscribers');
