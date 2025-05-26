@@ -76,6 +76,9 @@ När containrarna har startat kan du nå applikationen på följande adresser:
 
 ---
 
+Importera database/db_export.sql i newsletter_saas databasen
+databasen innehåller endast roller under development så man måste skapa annan data själv genom att navigera sidan
+
 ## Felsökning
 
 Om du stöter på problem, kontrollera följande:

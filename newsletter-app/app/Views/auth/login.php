@@ -3,7 +3,7 @@
 
 <?= $this->section('content'); ?>
 
-<style> 
+<style>
     .error {
         color: red;
     }
@@ -48,6 +48,7 @@
     <input type="password" name="password" id="password">
     <button type="submit">Logga in</button>
     <p>Glömt lösenord? <a href="<?= site_url('forgot-password') ?>">Återställ lösenord</a></p>
-    <p>Har du inget konto? <a href="<?= site_url('register') ?>">Registrera dig här</a></p>
+    <p>Har du inget konto? <a href="<?= site_url('register') ?>"
+            style="color: blue; text-decoration: underline;">Registrera dig här</a></p>
 </form>
 <?= $this->endSection(); ?>

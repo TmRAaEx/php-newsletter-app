@@ -23,34 +23,43 @@ class Auth extends BaseController
                 'first_name' => $this->request->getPost('first_name'),
                 'last_name' => $this->request->getPost('last_name'),
                 'email' => $this->request->getPost('email'),
-                'password_raw' => $this->request->getPost('password'), // raw password
+                'password_raw' => $this->request->getPost('password'),
             ];
 
-            $role = $this->request->getPost('role_id');
+            $confrmPassword = $this->request->getPost('password_confirm');
 
+            if ($data['password_raw'] !== $confrmPassword) {
+                return view('auth/register', [
+                    'errors' => ['password_confirm' => 'Lösenorden matchar inte.'],
+                    'roles' => $roleModel->findAll()
+                ]);
+            }
+
+            $roles = $this->request->getPost('roles') ?? [];
 
             if (!$userModel->save($data)) {
                 $errors = $userModel->errors();
                 if (empty($errors)) {
                     $errors = ['db' => $userModel->db->error()['message']];
                 }
-
-                $userId = $userModel->getInsertID();
-
-                if ($role) {
-                    $userRoleModel->insert([
-                        'user_id' => $userId,
-                        'role_id' => $role
-                    ]);
-                }
-
-                return view('auth/register', ['errors' => $errors]);
+                return view('auth/register', [
+                    'errors' => $errors,
+                    'roles' => $roleModel->findAll()
+                ]);
             }
+
+            $userId = $userModel->getInsertID();
+
+            foreach ($roles as $roleId) {
+                $userRoleModel->insert([
+                    'user_id' => $userId,
+                    'role_id' => $roleId
+                ]);
+            }
+
             return redirect()->to('/login')->with('message', 'Registrering lyckades! Du kan nu logga in.');
         } else {
-
             $roles = $roleModel->findAll();
-
             return view('auth/register', ['roles' => $roles]);
         }
     }
