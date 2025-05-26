@@ -24,7 +24,7 @@ Följ dessa steg för att bygga och starta applikationen:
 Om du inte redan har klonat projektet, gör det med följande kommando:
 
 ```bash
-git clone [<repository-url>](https://github.com/TmRAaEx/php-newsletter-app)
+git clone https://github.com/TmRAaEx/php-newsletter-app
 cd php-newsletter-app
 ```
 
