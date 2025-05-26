@@ -13,9 +13,13 @@ $this->extend('layouts/main'); ?>
 <?php if (empty($newsletters)): ?>
     <p>Du har inga nyhetsbrev.</p>
 <?php else: ?>
-    <?php foreach ($newsletters as $newsletter): ?>
-        <?= view("components/newsletter_item", ['newsletter' => $newsletter]) ?>
-    <?php endforeach; ?>
+    <ul id="my-newsletters">
+        <?php foreach ($newsletters as $newsletter): ?>
+            <li>
+                <?= view("components/newsletter_item", ['newsletter' => $newsletter]) ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 <?php endif; ?>
 
 <?php $this->endSection(); ?>
