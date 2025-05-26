@@ -24,8 +24,8 @@ Följ dessa steg för att bygga och starta applikationen:
 Om du inte redan har klonat projektet, gör det med följande kommando:
 
 ```bash
-git clone <repository-url>
-cd <project-directory>
+git clone https://github.com/TmRAaEx/php-newsletter-app
+cd php-newsletter-app
 ```
 
 ### 2. Bygg Docker-imagen
@@ -33,19 +33,8 @@ cd <project-directory>
 Bygg Docker-imagen för PHP-applikationen genom att köra följande kommando i projektets rotmapp:
 
 ```bash
-docker build -t php-local:local .
+docker compose -f environment/docker-compose.yml build site
 ```
-
-Detta kommando bygger din PHP-applikation med Apache och alla nödvändiga beroenden.
-
-### 3. Starta containrarna med Docker Compose
-
-När bilden är byggd, starta alla tjänster med Docker Compose:
-
-```bash
-docker compose -p php up
-```
-
 Detta kommando startar de tre tjänsterna som definieras i Docker Compose:
 
 - **MariaDB (db):** Databastjänsten som används av applikationen.  
@@ -56,7 +45,7 @@ Detta kommando startar de tre tjänsterna som definieras i Docker Compose:
 
 Gå in i docker containers terminal 
 ```bash 
-docker exec -it php-site-1 bash
+docker exec -it environment-site-1 bash
 ```
 
 sedan 
